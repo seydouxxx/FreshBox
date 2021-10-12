@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddFridgeCell" id="gTV-IL-0wX" customClass="FridgeAddCollectionViewCell" customModule="FreshBox" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="312" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="312" height="50"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Gt-dT-rGk">
+                        <rect key="frame" x="0.0" y="0.0" width="312" height="50"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0P-sC-uuw">
+                                <rect key="frame" x="0.0" y="0.0" width="312" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWE-dK-Yww">
+                                        <rect key="frame" x="136" y="11" width="42" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" image="plus" catalog="system">
+                                            <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="baseBackgroundColor" white="0.76618480033615011" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                </subviews>
+                            </view>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="7Gt-dT-rGk" secondAttribute="bottom" id="8v4-L5-2IR"/>
+                <constraint firstItem="7Gt-dT-rGk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="XGJ-UW-Sbg"/>
+                <constraint firstItem="7Gt-dT-rGk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Ydy-uk-Z0L"/>
+                <constraint firstAttribute="trailing" secondItem="7Gt-dT-rGk" secondAttribute="trailing" id="bp9-fG-lYw"/>
+            </constraints>
+            <size key="customSize" width="312" height="50"/>
+            <connections>
+                <outlet property="addFridgeButton" destination="RWE-dK-Yww" id="Fan-iz-7SC"/>
+            </connections>
+            <point key="canvasLocation" x="321.73913043478262" y="87.723214285714278"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+    </resources>
+</document>
