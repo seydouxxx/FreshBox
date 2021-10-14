@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65A143C91D942D234FA4429F /* Pods_FreshBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9B47A8A0AEF01BB50E6F76 /* Pods_FreshBox.framework */; };
 		7E838ECF2712DB6600547E93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ECE2712DB6600547E93 /* AppDelegate.swift */; };
 		7E838ED12712DB6600547E93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ED02712DB6600547E93 /* SceneDelegate.swift */; };
 		7E838ED32712DB6600547E93 /* FridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ED22712DB6600547E93 /* FridgeViewController.swift */; };
@@ -17,6 +18,8 @@
 		7E838EE82712FB1500547E93 /* FridgeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E838EE62712FB1500547E93 /* FridgeCollectionViewCell.xib */; };
 		7EAE76F7271538DB003773B3 /* FridgeAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76F5271538DB003773B3 /* FridgeAddCollectionViewCell.swift */; };
 		7EAE76F8271538DB003773B3 /* FridgeAddCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EAE76F6271538DB003773B3 /* FridgeAddCollectionViewCell.xib */; };
+		7EAE76FB27155CF0003773B3 /* Fridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FA27155CF0003773B3 /* Fridge.swift */; };
+		7EAE76FE27156DD4003773B3 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FD27156DD3003773B3 /* Item.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,11 @@
 		7E838EE62712FB1500547E93 /* FridgeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FridgeCollectionViewCell.xib; sourceTree = "<group>"; };
 		7EAE76F5271538DB003773B3 /* FridgeAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeAddCollectionViewCell.swift; sourceTree = "<group>"; };
 		7EAE76F6271538DB003773B3 /* FridgeAddCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FridgeAddCollectionViewCell.xib; sourceTree = "<group>"; };
+		7EAE76FA27155CF0003773B3 /* Fridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fridge.swift; sourceTree = "<group>"; };
+		7EAE76FD27156DD3003773B3 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		A0FDACAFC57EF5A6C1C11F42 /* Pods-FreshBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreshBox.release.xcconfig"; path = "Target Support Files/Pods-FreshBox/Pods-FreshBox.release.xcconfig"; sourceTree = "<group>"; };
+		CF1E611809B596CC807CE7CE /* Pods-FreshBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreshBox.debug.xcconfig"; path = "Target Support Files/Pods-FreshBox/Pods-FreshBox.debug.xcconfig"; sourceTree = "<group>"; };
+		DE9B47A8A0AEF01BB50E6F76 /* Pods_FreshBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreshBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,17 +47,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65A143C91D942D234FA4429F /* Pods_FreshBox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D4CCEE7CE37DEF9F30160AC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DE9B47A8A0AEF01BB50E6F76 /* Pods_FreshBox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7E838EC22712DB6600547E93 = {
 			isa = PBXGroup;
 			children = (
 				7E838ECD2712DB6600547E93 /* FreshBox */,
 				7E838ECC2712DB6600547E93 /* Products */,
+				F317FB201302F81CDF38672D /* Pods */,
+				4D4CCEE7CE37DEF9F30160AC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -96,6 +115,8 @@
 		7E838EE42712F72C00547E93 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7EAE76FA27155CF0003773B3 /* Fridge.swift */,
+				7EAE76FD27156DD3003773B3 /* Item.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -111,6 +132,15 @@
 			path = FridgeView;
 			sourceTree = "<group>";
 		};
+		F317FB201302F81CDF38672D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CF1E611809B596CC807CE7CE /* Pods-FreshBox.debug.xcconfig */,
+				A0FDACAFC57EF5A6C1C11F42 /* Pods-FreshBox.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -118,9 +148,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7E838EDF2712DB6B00547E93 /* Build configuration list for PBXNativeTarget "FreshBox" */;
 			buildPhases = (
+				B37CE9629B01C42EB4775EA9 /* [CP] Check Pods Manifest.lock */,
 				7E838EC72712DB6600547E93 /* Sources */,
 				7E838EC82712DB6600547E93 /* Frameworks */,
 				7E838EC92712DB6600547E93 /* Resources */,
+				00A73CD63555990894439180 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -179,14 +211,58 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		00A73CD63555990894439180 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FreshBox/Pods-FreshBox-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FreshBox/Pods-FreshBox-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FreshBox/Pods-FreshBox-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B37CE9629B01C42EB4775EA9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FreshBox-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7E838EC72712DB6600547E93 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EAE76FB27155CF0003773B3 /* Fridge.swift in Sources */,
 				7E838ED32712DB6600547E93 /* FridgeViewController.swift in Sources */,
 				7EAE76F7271538DB003773B3 /* FridgeAddCollectionViewCell.swift in Sources */,
 				7E838EE72712FB1500547E93 /* FridgeCollectionViewCell.swift in Sources */,
+				7EAE76FE27156DD4003773B3 /* Item.swift in Sources */,
 				7E838ECF2712DB6600547E93 /* AppDelegate.swift in Sources */,
 				7E838ED12712DB6600547E93 /* SceneDelegate.swift in Sources */,
 			);
@@ -332,6 +408,7 @@
 		};
 		7E838EE02712DB6B00547E93 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF1E611809B596CC807CE7CE /* Pods-FreshBox.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -360,6 +437,7 @@
 		};
 		7E838EE12712DB6B00547E93 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0FDACAFC57EF5A6C1C11F42 /* Pods-FreshBox.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

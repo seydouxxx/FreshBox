@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FridgeViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
-    var fridges: [String] = ["메인 냉장고"]
+    let realm = try! Realm()
+    var fridges: Results<Fridge>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +21,12 @@ class FridgeViewController: UIViewController {
         collectionView.register(UINib(nibName: "FridgeAddCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddFridgeCell")
         
         // Do any additional setup after loading the view.
+        self.loadData()
+    }
+    
+    func loadData() {
+        fridges = realm.objects(Fridge.self).sorted(byKeyPath: "createdDate", ascending: true)
+        collectionView.reloadData()
     }
 }
 
@@ -27,27 +35,38 @@ extension FridgeViewController: UICollectionViewDelegate {
 }
 extension FridgeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fridges.count + 1
+        if let f = fridges {
+            print(f.count + 1)
+            return f.count + 1
+        }
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         //  show fridge cells
-        if indexPath.item != fridges.count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FridgeCell", for: indexPath) as! FridgeCollectionViewCell
-            
-            let image = textOnImage(text: self.fridges[indexPath.item], image: UIImage(named: "fridge1")!, position: CGPoint.init(x: 10, y: 10))
-            cell.fridgeImage.image = image
-            
-            return cell
-        
-        } else {
-            //  show fridge add button
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddFridgeCell", for: indexPath) as! FridgeAddCollectionViewCell
-            
-            return cell
+        if let fridges = fridges {
+//            print(fridges)
+//            print(indexPath.row)
+//            print(fridges.count)
+            if indexPath.item != fridges.count {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FridgeCell", for: indexPath) as! FridgeCollectionViewCell
+                let fridge = fridges[indexPath.item]
+                let image = textOnImage(text: fridge.name, image: UIImage(named: fridge.fridgeImage)!, position: CGPoint.init(x: 10, y: 10))
+                
+                cell.fridgeImage.image = image
+                
+                return cell
+            } else {
+                //  show fridge add button
+                print("dd")
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddFridgeCell", for: indexPath) as! FridgeAddCollectionViewCell
+                print(cell)
+                
+                return cell
+            }
         }
-        
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "AddFridgeCell", for: indexPath) as! FridgeAddCollectionViewCell
     }
     
     //MARK: - Method to print text on image
