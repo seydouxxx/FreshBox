@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class FridgeViewController: UIViewController {
+class FridgeViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var collectionView: UICollectionView!
     let realm = try! Realm()
@@ -18,7 +18,9 @@ class FridgeViewController: UIViewController {
         super.viewDidLoad()
         
         collectionView.register(UINib(nibName: "FridgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FridgeCell")
-        collectionView.register(UINib(nibName: "FridgeAddCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddFridgeCell")
+        collectionView.register(AddFridgeCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "AddButtonFooter")
+//        collectionView.register(UINib(nibName: "FridgeAddCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddFridgeCell")
+        
         
         // Do any additional setup after loading the view.
         self.loadData()
@@ -36,20 +38,18 @@ extension FridgeViewController: UICollectionViewDelegate {
 extension FridgeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let f = fridges {
-            print(f.count + 1)
-            return f.count + 1
+//            print(f.count + 1)
+            return f.count
         }
-        return 1
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         //  show fridge cells
         if let fridges = fridges {
-//            print(fridges)
-//            print(indexPath.row)
-//            print(fridges.count)
             if indexPath.item != fridges.count {
+                print("aa")
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FridgeCell", for: indexPath) as! FridgeCollectionViewCell
                 let fridge = fridges[indexPath.item]
                 let image = textOnImage(text: fridge.name, image: UIImage(named: fridge.fridgeImage)!, position: CGPoint.init(x: 10, y: 10))
@@ -57,16 +57,27 @@ extension FridgeViewController: UICollectionViewDataSource {
                 cell.fridgeImage.image = image
                 
                 return cell
-            } else {
-                //  show fridge add button
-                print("dd")
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddFridgeCell", for: indexPath) as! FridgeAddCollectionViewCell
-                print(cell)
-                
-                return cell
             }
         }
-        return collectionView.dequeueReusableCell(withReuseIdentifier: "AddFridgeCell", for: indexPath) as! FridgeAddCollectionViewCell
+        return UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "AddButtonFooter", for: indexPath) as! AddFridgeCollectionReusableView
+        
+        print(indexPath)
+        footerView.AddFridgebutton.addTarget(self, action: #selector(addFridge), for: .touchUpInside)
+        
+        return footerView
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 50)
+    }
+    
+    @objc func addFridge() {
+        let vc = UIViewController()
+        
+        self.present(vc, animated: true, completion: nil)
     }
     
     //MARK: - Method to print text on image
