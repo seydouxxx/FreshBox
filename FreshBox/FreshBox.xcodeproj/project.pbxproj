@@ -16,8 +16,6 @@
 		7E838EDB2712DB6B00547E93 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E838ED92712DB6B00547E93 /* LaunchScreen.storyboard */; };
 		7E838EE72712FB1500547E93 /* FridgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838EE52712FB1500547E93 /* FridgeCollectionViewCell.swift */; };
 		7E838EE82712FB1500547E93 /* FridgeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E838EE62712FB1500547E93 /* FridgeCollectionViewCell.xib */; };
-		7EAE76F7271538DB003773B3 /* FridgeAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76F5271538DB003773B3 /* FridgeAddCollectionViewCell.swift */; };
-		7EAE76F8271538DB003773B3 /* FridgeAddCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EAE76F6271538DB003773B3 /* FridgeAddCollectionViewCell.xib */; };
 		7EAE76FB27155CF0003773B3 /* Fridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FA27155CF0003773B3 /* Fridge.swift */; };
 		7EAE76FE27156DD4003773B3 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FD27156DD3003773B3 /* Item.swift */; };
 		7EAE7700271889CD003773B3 /* AddFridgeCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FF271889CD003773B3 /* AddFridgeCollectionReusableView.swift */; };
@@ -34,8 +32,6 @@
 		7E838EDC2712DB6B00547E93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E838EE52712FB1500547E93 /* FridgeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7E838EE62712FB1500547E93 /* FridgeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FridgeCollectionViewCell.xib; sourceTree = "<group>"; };
-		7EAE76F5271538DB003773B3 /* FridgeAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeAddCollectionViewCell.swift; sourceTree = "<group>"; };
-		7EAE76F6271538DB003773B3 /* FridgeAddCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FridgeAddCollectionViewCell.xib; sourceTree = "<group>"; };
 		7EAE76FA27155CF0003773B3 /* Fridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fridge.swift; sourceTree = "<group>"; };
 		7EAE76FD27156DD3003773B3 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		7EAE76FF271889CD003773B3 /* AddFridgeCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFridgeCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -128,8 +124,6 @@
 			children = (
 				7E838EE52712FB1500547E93 /* FridgeCollectionViewCell.swift */,
 				7E838EE62712FB1500547E93 /* FridgeCollectionViewCell.xib */,
-				7EAE76F5271538DB003773B3 /* FridgeAddCollectionViewCell.swift */,
-				7EAE76F6271538DB003773B3 /* FridgeAddCollectionViewCell.xib */,
 				7EAE76FF271889CD003773B3 /* AddFridgeCollectionReusableView.swift */,
 			);
 			path = FridgeView;
@@ -205,7 +199,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E838EDB2712DB6B00547E93 /* LaunchScreen.storyboard in Resources */,
-				7EAE76F8271538DB003773B3 /* FridgeAddCollectionViewCell.xib in Resources */,
 				7E838EE82712FB1500547E93 /* FridgeCollectionViewCell.xib in Resources */,
 				7E838ED82712DB6B00547E93 /* Assets.xcassets in Resources */,
 				7E838ED62712DB6600547E93 /* Main.storyboard in Resources */,
@@ -263,7 +256,6 @@
 			files = (
 				7EAE76FB27155CF0003773B3 /* Fridge.swift in Sources */,
 				7E838ED32712DB6600547E93 /* FridgeViewController.swift in Sources */,
-				7EAE76F7271538DB003773B3 /* FridgeAddCollectionViewCell.swift in Sources */,
 				7E838EE72712FB1500547E93 /* FridgeCollectionViewCell.swift in Sources */,
 				7EAE7700271889CD003773B3 /* AddFridgeCollectionReusableView.swift in Sources */,
 				7EAE76FE27156DD4003773B3 /* Item.swift in Sources */,
