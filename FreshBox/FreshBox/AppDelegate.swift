@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         do {
             _ = try Realm()
+            print(try? Realm().configuration.fileURL!)
         } catch {
             print("Error during initialize Realm. \(error)")
         }

@@ -21,6 +21,12 @@ class AddFridgeCollectionReusableView: UICollectionReusableView {
         
         addSubview(btn)
         
+        btn.topAnchor.constraint(equalTo: topAnchor, constant: 10.0).isActive = true
+        
+        btn.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0).isActive = true
+        btn.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
+        
+        
         AddFridgebutton = btn
         
         //  코드를 통한 오토레이아웃으로 뷰의 크기를 조정하고 싶으면 이 프로퍼티 값을 false로 주어야 함
