@@ -34,6 +34,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
+                                        <connections>
+                                            <segue destination="MXy-RY-shm" kind="show" identifier="FridgeSelection" id="cnd-Vk-NEB"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -59,6 +62,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="114.50892857142857"/>
+        </scene>
+        <!--Item View Controller-->
+        <scene sceneID="ESb-pC-jT3">
+            <objects>
+                <viewController id="MXy-RY-shm" customClass="ItemViewController" customModule="FreshBox" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UW4-ke-0ED">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="pPT-ni-Ftu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="YQy-1g-itL"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bpq-qY-aIH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1795" y="115"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="i5R-CI-MLo">

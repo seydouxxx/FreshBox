@@ -35,6 +35,7 @@ class FridgeViewController: UIViewController, UICollectionViewDelegateFlowLayout
 extension FridgeViewController: UICollectionViewDelegate {
     
 }
+
 extension FridgeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let f = fridges {
@@ -62,7 +63,17 @@ extension FridgeViewController: UICollectionViewDataSource {
         return UICollectionViewCell()
     }
     
-    // 셀 longPress 시 보여줄 컨텍스트메뉴 핸들러
+    //MARK: - Navigation
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedItem = fridges![indexPath.item]
+        performSegue(withIdentifier: "FridgeSelection", sender: nil)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as! ItemViewController
+        destination.selectedFridge = selectedItem
+    }
+    
+    //MARK: - Long press context menu
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             var menus: [UIMenuElement] = []
@@ -104,7 +115,7 @@ extension FridgeViewController: UICollectionViewDataSource {
 //            return UIMenu(title: "", options: .displayInline, children: menus)
 //        }
 //    }
-    
+    //MARK: - Add button as footer
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "AddButtonFooter", for: indexPath) as! AddFridgeCollectionReusableView
         
@@ -113,7 +124,6 @@ extension FridgeViewController: UICollectionViewDataSource {
         return footerView
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        print(CGSize(width: collectionView.frame.width, height: 50))
         return CGSize(width: collectionView.frame.width, height: 50)
     }
     

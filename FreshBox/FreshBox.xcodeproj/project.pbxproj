@@ -19,6 +19,7 @@
 		7EAE76FB27155CF0003773B3 /* Fridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FA27155CF0003773B3 /* Fridge.swift */; };
 		7EAE76FE27156DD4003773B3 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FD27156DD3003773B3 /* Item.swift */; };
 		7EAE7700271889CD003773B3 /* AddFridgeCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE76FF271889CD003773B3 /* AddFridgeCollectionReusableView.swift */; };
+		7EAE7705271D568D003773B3 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE7704271D568D003773B3 /* ItemViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		7EAE76FA27155CF0003773B3 /* Fridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fridge.swift; sourceTree = "<group>"; };
 		7EAE76FD27156DD3003773B3 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		7EAE76FF271889CD003773B3 /* AddFridgeCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFridgeCollectionReusableView.swift; sourceTree = "<group>"; };
+		7EAE7704271D568D003773B3 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		A0FDACAFC57EF5A6C1C11F42 /* Pods-FreshBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreshBox.release.xcconfig"; path = "Target Support Files/Pods-FreshBox/Pods-FreshBox.release.xcconfig"; sourceTree = "<group>"; };
 		CF1E611809B596CC807CE7CE /* Pods-FreshBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreshBox.debug.xcconfig"; path = "Target Support Files/Pods-FreshBox/Pods-FreshBox.debug.xcconfig"; sourceTree = "<group>"; };
 		DE9B47A8A0AEF01BB50E6F76 /* Pods_FreshBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreshBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +97,7 @@
 		7E838EE22712F71000547E93 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7EAE7703271D5672003773B3 /* ItemView */,
 				7EAE76F9271538E2003773B3 /* FridgeView */,
 				7E838ED42712DB6600547E93 /* Main.storyboard */,
 				7E838ED92712DB6B00547E93 /* LaunchScreen.storyboard */,
@@ -106,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				7E838ED22712DB6600547E93 /* FridgeViewController.swift */,
+				7EAE7704271D568D003773B3 /* ItemViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -127,6 +131,13 @@
 				7EAE76FF271889CD003773B3 /* AddFridgeCollectionReusableView.swift */,
 			);
 			path = FridgeView;
+			sourceTree = "<group>";
+		};
+		7EAE7703271D5672003773B3 /* ItemView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ItemView;
 			sourceTree = "<group>";
 		};
 		F317FB201302F81CDF38672D /* Pods */ = {
@@ -255,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EAE76FB27155CF0003773B3 /* Fridge.swift in Sources */,
+				7EAE7705271D568D003773B3 /* ItemViewController.swift in Sources */,
 				7E838ED32712DB6600547E93 /* FridgeViewController.swift in Sources */,
 				7E838EE72712FB1500547E93 /* FridgeCollectionViewCell.swift in Sources */,
 				7EAE7700271889CD003773B3 /* AddFridgeCollectionReusableView.swift in Sources */,
