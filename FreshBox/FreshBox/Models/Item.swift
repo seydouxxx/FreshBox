@@ -18,6 +18,7 @@ class Item: Object {
     @objc dynamic var boughtDate: Date = Date()
     @objc dynamic var customExpireDate: Date = Date()
     @objc dynamic var itemImage: String = ""
+    @objc dynamic var itemLocation: String = ""
     
     let ofFridge = LinkingObjects(fromType: Fridge.self, property: "items")
 }

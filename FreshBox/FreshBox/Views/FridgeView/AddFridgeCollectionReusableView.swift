@@ -29,15 +29,6 @@ class AddFridgeCollectionReusableView: UICollectionReusableView {
         
         AddFridgebutton = btn
         
-        //  코드를 통한 오토레이아웃으로 뷰의 크기를 조정하고 싶으면 이 프로퍼티 값을 false로 주어야 함
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        lbl.font = UIFont.boldSystemFont(ofSize: 30)
-//        addSubview(lbl)
-//
-//        lbl.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 1.0).isActive = true
-//        lbl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//        lbl.textAlignment = .center
-//        testFooterLabel = lbl
     }
     
     override init(frame: CGRect) {
