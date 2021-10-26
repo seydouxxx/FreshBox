@@ -1,21 +1,17 @@
 //
-//  TextInputTableViewCell.swift
+//  EmptyTableViewCell.swift
 //  FreshBox
 //
-//  Created by Seydoux on 2021/10/21.
+//  Created by Seydoux on 2021/10/25.
 //
 
 import UIKit
 
-class TextInputTableViewCell: UITableViewCell {
-    var textField: UITextField!
-    
+class EmptyTableViewCell: UITableViewCell {
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        let tf = UITextField()
-        
-        textField = tf
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

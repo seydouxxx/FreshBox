@@ -35,7 +35,7 @@ class AddItemPhotoCell: AddItemCell {
         button.setTitle(buttonTitle, for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         
-        cell.addSubview(button)
+        cell.contentView.addSubview(button)
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
@@ -54,7 +54,7 @@ class AddItemTextFieldCell: AddItemCell {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         
-        cell.addSubview(textField)
+        cell.contentView.addSubview(textField)
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 20.0).isActive = true
@@ -77,8 +77,8 @@ class FavoriteFieldCell: AddItemCell {
         let fSwitch = UISwitch()
         fSwitch.isOn = false
         
-        cell.addSubview(fLabel)
-        cell.addSubview(fSwitch)
+        cell.contentView.addSubview(fLabel)
+        cell.contentView.addSubview(fSwitch)
         
         fLabel.translatesAutoresizingMaskIntoConstraints = false
         fLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
@@ -104,10 +104,6 @@ class AddItemStepperCell: AddItemCell {
         stackView.axis = .horizontal
         
         let decreaseBtn = UIButton()
-//        decreaseBtn.configuration = .filled()
-//        decreaseBtn.configuration?.baseBackgroundColor = .white
-//        decreaseBtn.configuration?.baseForegroundColor = .systemBlue
-//        decreaseBtn.layer.cornerRadius = 10.0
         decreaseBtn.setTitle("-", for: .normal)
         decreaseBtn.setTitleColor(.systemBlue, for: .normal)
         stackView.addArrangedSubview(decreaseBtn)
@@ -117,11 +113,6 @@ class AddItemStepperCell: AddItemCell {
         stackView.addArrangedSubview(valueLabel)
         
         let increaseBtn = UIButton()
-//        increaseBtn.configuration = .filled()
-//        increaseBtn.configuration?.baseBackgroundColor = .white
-//        increaseBtn.configuration?.baseForegroundColor = .systemBlue
-//        increaseBtn.layer.cornerRadius = 0.5 * 30
-//        increaseBtn.clipsToBounds = true
         increaseBtn.setTitle("+", for: .normal)
         increaseBtn.setTitleColor(.systemBlue, for: .normal)
         stackView.addArrangedSubview(increaseBtn)
@@ -135,8 +126,8 @@ class AddItemStepperCell: AddItemCell {
             valueLabel.text = String( Int(valueLabel.text!)! + 1 )
         }), for: .touchUpInside)
         
-        cell.addSubview(titleLabel)
-        cell.addSubview(stackView)
+        cell.contentView.addSubview(titleLabel)
+        cell.contentView.addSubview(stackView)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
@@ -149,4 +140,53 @@ class AddItemStepperCell: AddItemCell {
         self.valueLabel = valueLabel
         super.init(cell)
     }
+}
+
+class AddItemDateCell: AddItemCell {
+//    var datePicker: UIDatePicker
+    
+    init (_ cell: UITableViewCell, _ titleString: String) {
+        cell.detailTextLabel!.textColor = .systemBlue
+        let titleLabel = UILabel()
+        titleLabel.text = titleString
+        
+        cell.contentView.addSubview(titleLabel)
+//        cell.addSubview(titleLabel)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 20.0).isActive = true
+        
+        super.init(cell)
+        
+        cell.detailTextLabel!.text = self.dateFormatter(Date())
+    }
+    
+    func dateFormatter(_ date: Date) -> String {
+        let dateArray = date.formatted(date: .numeric, time: .omitted).split{$0=="/"}
+        return String(dateArray[2] + "년 " + dateArray[0] + "월 " + dateArray[1] + " 일")
+    }
+}
+
+class AddItemDatePickerCell: AddItemCell {
+    var datePicker: UIDatePicker
+    
+    override init (_ cell: UITableViewCell) {
+        let datePicker = UIDatePicker()
+        datePicker.preferredDatePickerStyle = .inline
+        datePicker.datePickerMode = .date
+        datePicker.locale = .current
+        
+        cell.contentView.addSubview(datePicker)
+        
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+        datePicker.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+        datePicker.heightAnchor.constraint(equalTo: cell.heightAnchor, constant: 0).isActive = true
+        
+        self.datePicker = datePicker
+        super.init(cell)
+    }
+    
+    
 }

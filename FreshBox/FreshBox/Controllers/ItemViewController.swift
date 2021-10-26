@@ -43,7 +43,8 @@ extension ItemViewController: UITableViewDataSource {
         if let items = items {
             return items.count
         }
-        return 0    }
+        return 0
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
