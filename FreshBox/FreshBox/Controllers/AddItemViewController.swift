@@ -21,6 +21,7 @@ class AddItemViewController: UIViewController {
         var titleCell: AddItemTextFieldCell?
         var memoCell: AddItemTextFieldCell?
         var countCell: AddItemStepperCell?
+        var positionCell: AddItemSegmentCell?
         var expDateCell: AddItemDateCell?
         var expPickerCell: AddItemDatePickerCell?
         var buyDateCell: AddItemDateCell?
@@ -99,7 +100,9 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                 cell = quantityCell.cell
             } else if indexPath.row == 1 {
                 // TODO: 보관 장소 선택
-                
+                let segmentCell = AddItemSegmentCell(cell, currentFridge!.name)
+                cells.positionCell = segmentCell
+                cell = segmentCell.cell
             }
         case 3:
             if indexPath.row == 0 {
@@ -114,6 +117,8 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let expireDatePickerCell = AddItemDatePickerCell(cell)
                     expireDatePickerCell.datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+                    
+                    expireDatePickerCell.datePicker.date = cells.expDateCell!.date
                     
                     cells.expPickerCell = expireDatePickerCell
                     cell = expireDatePickerCell.cell
@@ -138,6 +143,9 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let boughtDatePickerCell = AddItemDatePickerCell(cell)
                     boughtDatePickerCell.datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+                    
+                    boughtDatePickerCell.datePicker.date = cells.buyDateCell!.date
+                    
                     cells.buyPickerCell = boughtDatePickerCell
                     cell = boughtDatePickerCell.cell
                     
@@ -146,6 +154,9 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 let boughtDatePickerCell = AddItemDatePickerCell(cell)
                 boughtDatePickerCell.datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
+                
+                boughtDatePickerCell.datePicker.date = cells.buyDateCell!.date
+                
                 cells.buyPickerCell = boughtDatePickerCell
                 cell = boughtDatePickerCell.cell
                 
@@ -160,15 +171,13 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
     @objc func dateChanged(_ datePicker: UIDatePicker) {
         
         if let expPicker = cells.expPickerCell, let expDate = cells.expDateCell {
-            expDate.cell.detailTextLabel?.text = dateFormatter(expPicker.datePicker.date)
+            expDate.date = expPicker.datePicker.date
+            expDate.setDateLabel()
         }
         if let buyPicker = cells.buyPickerCell, let buyDate = cells.buyDateCell {
-            buyDate.cell.detailTextLabel?.text = dateFormatter(buyPicker.datePicker.date)
+            buyDate.date = buyPicker.datePicker.date
+            buyDate.setDateLabel()
         }
-    }
-    func dateFormatter(_ date: Date) -> String {
-        let dateArray = date.formatted(date: .numeric, time: .omitted).split{$0=="/"}
-        return String(dateArray[2] + "년 " + dateArray[0] + "월 " + dateArray[1] + " 일")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -143,7 +143,7 @@ class AddItemStepperCell: AddItemCell {
 }
 
 class AddItemDateCell: AddItemCell {
-//    var datePicker: UIDatePicker
+    var date: Date
     
     init (_ cell: UITableViewCell, _ titleString: String) {
         cell.detailTextLabel!.textColor = .systemBlue
@@ -157,9 +157,12 @@ class AddItemDateCell: AddItemCell {
         titleLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 20.0).isActive = true
         
+        self.date = Date()
         super.init(cell)
-        
-        cell.detailTextLabel!.text = self.dateFormatter(Date())
+        cell.detailTextLabel!.text = self.dateFormatter(self.date)
+    }
+    func setDateLabel() {
+        self.cell.detailTextLabel!.text = self.dateFormatter(self.date)
     }
     
     func dateFormatter(_ date: Date) -> String {
@@ -187,6 +190,30 @@ class AddItemDatePickerCell: AddItemCell {
         self.datePicker = datePicker
         super.init(cell)
     }
+}
+
+class AddItemSegmentCell: AddItemCell {
+    var position: [String] = ["냉장", "냉동", "기타"]
+    var segment: UISegmentedControl
     
-    
+    init (_ cell: UITableViewCell, _ titleString: String) {
+        let title = UILabel()
+        title.text = titleString
+        let segment = UISegmentedControl(items: position)
+        segment.selectedSegmentIndex = 0
+        
+        cell.contentView.addSubview(title)
+        cell.contentView.addSubview(segment)
+        
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+        title.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 20.0).isActive = true
+        
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+        segment.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20.0).isActive = true
+        
+        self.segment = segment
+        super.init(cell)
+    }
 }
