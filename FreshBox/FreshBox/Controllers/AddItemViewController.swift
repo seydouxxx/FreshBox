@@ -7,11 +7,13 @@
 //  데이트피커 선택 시 레이블 변경
 //  데이트피커 선택 시 셀 삭제
 import UIKit
+import RealmSwift
 
 class AddItemViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var currentFridge: Fridge?
+    let realm = try! Realm()
     let sectionName: [String] = ["photo", "name", "storeDetail", "dateDetail"]
     let cellName: [[String]] = [["photo"], ["favorite", "name", "memo"], ["quantity", "location"], ["expire date", "boughtDate"]]
     var isExpanded: [Bool] = [false, false]
@@ -47,8 +49,26 @@ class AddItemViewController: UIViewController {
     }
     @IBAction func submitBtnPressed(_ sender: UIBarButtonItem) {
         // need to do form validation
+        guard let name = cells.titleCell?.textField.text else { return }
         
-        
+        do {
+            try self.realm.write {
+                let newItem = Item()
+                newItem.name = name
+                newItem.memo = cells.memoCell?.textField.text ?? ""
+                newItem.favorite = cells.favoriteCell?.fSwitch.isOn ?? false
+                newItem.quantity = Int((cells.countCell?.valueLabel.text)!) ?? 0
+                newItem.expireDate = cells.expDateCell?.date ?? Date()
+                newItem.boughtDate = cells.buyDateCell?.date ?? Date()
+                newItem.itemLocation = cells.positionCell?.segment.selectedSegmentIndex ?? 0
+                currentFridge?.items.append(newItem)
+                
+                self.realm.add(newItem)
+            }
+        } catch {
+            print("Error occured in Writing Item. \(error)")
+        }
+        self.dismiss(animated: true, completion: nil)
     }
 }
 extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {

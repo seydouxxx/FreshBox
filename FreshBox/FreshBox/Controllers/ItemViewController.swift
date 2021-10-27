@@ -15,6 +15,9 @@ class ItemViewController: UIViewController {
     var realm = try! Realm()
     var items: Results<Item>?
     var selectedFridge: Fridge?
+    
+    var itemss: List<Item>?
+    var testFridge: Results<Fridge>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +29,13 @@ class ItemViewController: UIViewController {
     }
     
     func loadData() {
-        items = realm.objects(Item.self)
+        itemss = realm.objects(Fridge.self).filter("id == \(selectedFridge!.id)").first?.items
+//        items = selectedFridge?.items
+        
+        
         tableView.reloadData()
-        print(items)
+        print(itemss)
+        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let addItemVC = segue.destination as! AddItemViewController

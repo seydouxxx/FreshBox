@@ -11,6 +11,7 @@ import RealmSwift
 class FridgeViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var collectionView: UICollectionView!
+
     let realm = try! Realm()
     var fridges: Results<Fridge>?
     var selectedItem: Fridge?
@@ -95,26 +96,6 @@ extension FridgeViewController: UICollectionViewDataSource {
             return UIMenu(title: self.fridges![indexPath.item].name, options: .displayInline, children: menus)
         }
     }
-//    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-//        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (_:[UIMenuElement]) -> UIMenu? in
-//            var menus: [UIMenuElement] = []
-//            let editBtn = UIAction(title: "수정", image: UIImage(systemName: "pencil")) { action in
-//                print("Edit")
-//            }
-//            let deleteBtn = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
-////                do {
-////                    try self.realm.write({
-////                        self.realm.delete()
-////                    })
-////                } catch {
-////                    print("Error occured during deletetion. \(error)")
-////                }
-//            }
-//            menus.append(editBtn)
-//            menus.append(deleteBtn)
-//            return UIMenu(title: "", options: .displayInline, children: menus)
-//        }
-//    }
     //MARK: - Add button as footer
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "AddButtonFooter", for: indexPath) as! AddFridgeCollectionReusableView
@@ -139,6 +120,7 @@ extension FridgeViewController: UICollectionViewDataSource {
             do {
                 try self.realm.write({
                     let newFridge = Fridge()
+                    newFridge.id = (self.realm.objects(Fridge.self).max(ofProperty: "id") ?? 0) + 1
                     newFridge.name = textField.text!
                     newFridge.createdDate = Date()
                     newFridge.fridgeImage = "fridge1"
