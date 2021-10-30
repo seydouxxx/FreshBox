@@ -13,10 +13,10 @@ class Fridge: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var fridgeImage: String = ""
     @objc dynamic var createdDate: Date = Date()
+    let items = List<Item>()
     
     override static func primaryKey() -> String? {
         return "id"
     }
     
-    let items = List<Item>()
 }

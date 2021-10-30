@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		65A143C91D942D234FA4429F /* Pods_FreshBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9B47A8A0AEF01BB50E6F76 /* Pods_FreshBox.framework */; };
-		7E34DD8227268E0000CE8405 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E34DD8127268E0000CE8405 /* EmptyTableViewCell.swift */; };
+		7E834149272A5F7500AEDF02 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E834148272A5F7400AEDF02 /* ItemTableViewCell.swift */; };
 		7E838ECF2712DB6600547E93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ECE2712DB6600547E93 /* AppDelegate.swift */; };
 		7E838ED12712DB6600547E93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ED02712DB6600547E93 /* SceneDelegate.swift */; };
 		7E838ED32712DB6600547E93 /* FridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ED22712DB6600547E93 /* FridgeViewController.swift */; };
@@ -26,7 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7E34DD8127268E0000CE8405 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
+		7E834148272A5F7400AEDF02 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		7E838ECB2712DB6600547E93 /* FreshBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreshBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E838ECE2712DB6600547E93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E838ED02712DB6600547E93 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		7EAE7703271D5672003773B3 /* ItemView */ = {
 			isa = PBXGroup;
 			children = (
-				7E34DD8127268E0000CE8405 /* EmptyTableViewCell.swift */,
+				7E834148272A5F7400AEDF02 /* ItemTableViewCell.swift */,
 			);
 			path = ItemView;
 			sourceTree = "<group>";
@@ -283,8 +283,8 @@
 				7EAE7707271EADDB003773B3 /* AddItemViewController.swift in Sources */,
 				7EAE76FE27156DD4003773B3 /* Item.swift in Sources */,
 				7E838ECF2712DB6600547E93 /* AppDelegate.swift in Sources */,
+				7E834149272A5F7500AEDF02 /* ItemTableViewCell.swift in Sources */,
 				7E838ED12712DB6600547E93 /* SceneDelegate.swift in Sources */,
-				7E34DD8227268E0000CE8405 /* EmptyTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

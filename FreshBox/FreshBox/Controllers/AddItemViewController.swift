@@ -13,6 +13,7 @@ class AddItemViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var currentFridge: Fridge?
+    var parentVC: ItemViewController!
     let realm = try! Realm()
     let sectionName: [String] = ["photo", "name", "storeDetail", "dateDetail"]
     let cellName: [[String]] = [["photo"], ["favorite", "name", "memo"], ["quantity", "location"], ["expire date", "boughtDate"]]
@@ -42,18 +43,29 @@ class AddItemViewController: UIViewController {
         print(currentFridge!.name)
         cells = CellStruct()
         // Do any additional setup after loading the view.
-        
+        setKeyboardDismiss()
+    }
+    func setKeyboardDismiss() {
+        let touchGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDismiss))
+        touchGesture.isEnabled = true
+        touchGesture.cancelsTouchesInView = false
+        touchGesture.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(touchGesture)
+    }
+    @objc func keyboardDismiss () {
+        self.view.endEditing(true)
     }
     @IBAction func cancelBtnPressed(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func submitBtnPressed(_ sender: UIBarButtonItem) {
         // need to do form validation
-        guard let name = cells.titleCell?.textField.text else { return }
+        guard let name = cells.titleCell?.textField.text, name.count != 0 else { return }
         
         do {
             try self.realm.write {
                 let newItem = Item()
+                newItem.id = (self.realm.objects(Item.self).max(ofProperty: "id") ?? 0) + 1
                 newItem.name = name
                 newItem.memo = cells.memoCell?.textField.text ?? ""
                 newItem.favorite = cells.favoriteCell?.fSwitch.isOn ?? false
@@ -68,6 +80,7 @@ class AddItemViewController: UIViewController {
         } catch {
             print("Error occured in Writing Item. \(error)")
         }
+        parentVC.tableView.reloadData()
         self.dismiss(animated: true, completion: nil)
     }
 }
