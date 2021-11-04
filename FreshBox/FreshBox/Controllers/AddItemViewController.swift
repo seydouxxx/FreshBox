@@ -18,6 +18,9 @@ class AddItemViewController: UIViewController {
     let sectionName: [String] = ["photo", "name", "storeDetail", "dateDetail"]
     let cellName: [[String]] = [["photo"], ["favorite", "name", "memo"], ["quantity", "location"], ["expire date", "boughtDate"]]
     var isExpanded: [Bool] = [false, false]
+    var isImage = false
+    var image: UIImage?
+    var imageName: String?
     struct CellStruct {
         var photoCell: AddItemPhotoCell?
         var favoriteCell: FavoriteFieldCell?
@@ -39,7 +42,7 @@ class AddItemViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
-        
+        tableView.keyboardDismissMode = .onDrag
         print(currentFridge!.name)
         cells = CellStruct()
         // Do any additional setup after loading the view.
@@ -60,13 +63,35 @@ class AddItemViewController: UIViewController {
     }
     @IBAction func submitBtnPressed(_ sender: UIBarButtonItem) {
         // need to do form validation
+        var originalImageName = ""
+        var thumbnailImageName = ""
         guard let name = cells.titleCell?.textField.text, name.count != 0 else { return }
+        
+        print("submitted")
+        print(isImage)
+        print(self.image?.size)
+        print(self.imageName)
+        
+        if isImage, let image = self.image, let imageName = self.imageName {
+            
+            originalImageName = imageName + ".jpeg"
+            thumbnailImageName = imageName + "_thumb.jpeg"
+            
+            ImageFileManager.shared.saveImage(image: image, name: originalImageName) { [weak self] onSuccess in
+                print("saveImage onSuccess: \(onSuccess)")
+            }
+            ImageFileManager.shared.saveImage(image: resizeImage(of: image, for: 70), name: thumbnailImageName) { [weak self] onSuccess in
+                print("saveImage Thumb onSuccess: \(onSuccess)")
+            }
+        }
         
         do {
             try self.realm.write {
                 let newItem = Item()
                 newItem.id = (self.realm.objects(Item.self).max(ofProperty: "id") ?? 0) + 1
                 newItem.name = name
+                newItem.itemImage = originalImageName
+                newItem.itemThumbnail = thumbnailImageName
                 newItem.memo = cells.memoCell?.textField.text ?? ""
                 newItem.favorite = cells.favoriteCell?.fSwitch.isOn ?? false
                 newItem.quantity = Int((cells.countCell?.valueLabel.text)!) ?? 0
@@ -87,6 +112,9 @@ class AddItemViewController: UIViewController {
 extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0, isImage {
+            return cellName[section].count + 1
+        }
         if section == 3 {
             if isExpanded[0], isExpanded[1] {
                 return cellName[section].count + 2
@@ -107,9 +135,28 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.section {
         case 0:
-            let photoCell = AddItemPhotoCell(cell, "사진 추가")
-            cells.photoCell = photoCell
-            cell = photoCell.cell
+            if indexPath.row == 0 {
+                let photoCell = AddItemPhotoCell(cell, "사진 추가")
+                
+                let takePhotoAction = UIAction(title: "사진 촬영", image: UIImage(systemName: "camera"), handler: presentCamera(_:))
+                let cancelAction = UIAction(title: "취소", attributes: .destructive) { _ in
+                    print("cancel")
+                }
+                photoCell.button!.showsMenuAsPrimaryAction = true
+                photoCell.button!.menu = UIMenu.init(
+                    title: "사진 추가",
+                    image: UIImage(systemName: "camera"),
+                    identifier: nil,
+                    options: .displayInline,
+                    children: [takePhotoAction, cancelAction]
+                )
+                
+                cells.photoCell = photoCell
+                cell = photoCell.cell
+            } else if indexPath.row == 1 {
+                let imageCell = AddItemImageCell(cell, self.image!)
+                cell = imageCell.cell
+            }
         case 1:
             if indexPath.row == 0 {
                 let favoriteCell = FavoriteFieldCell(cell, "즐겨찾기")
@@ -215,6 +262,13 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var row2 = 2
+        if isImage, indexPath.section == 0, indexPath.row == 1 {
+            if let height = self.image?.size.height {
+                return height + 10
+            } else {
+                return 310
+            }
+        }
         if isExpanded[0] {
             row2 += 1
             if indexPath.section == 3, indexPath.row == 1 {
@@ -267,3 +321,43 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
         return sectionName.count
     }
 }
+extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func presentCamera(_ action: UIAction) {
+        
+        let camera = UIImagePickerController()
+        camera.sourceType = .camera
+        camera.cameraCaptureMode = .photo
+        camera.allowsEditing = true
+        camera.cameraDevice = .rear
+        camera.delegate = self
+        
+        present(camera, animated: true, completion: nil)
+    }
+    
+    //  이미지피커(사진촬영)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
+            isImage = true
+            self.image = resizeImage(of: image)
+            self.imageName = "\(ProcessInfo.processInfo.globallyUniqueString)"
+//            cells.photoCell?.imageName = "\(ProcessInfo.processInfo.globallyUniqueString)"
+//            print(cells.photoCell?.imageName)
+        }
+        picker.dismiss(animated: true)
+        tableView.beginUpdates()
+        tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+        tableView.endUpdates()
+    }
+    
+    //  이미지 리사이징(디폴트: width == 300)
+    func resizeImage(of image: UIImage, for newWidth: CGFloat = 300) -> UIImage {
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}
+

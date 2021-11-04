@@ -19,6 +19,7 @@ class Item: Object {
     @objc dynamic var boughtDate: Date = Date()
     @objc dynamic var customExpireDate: Date = Date()
     @objc dynamic var itemImage: String = ""
+    @objc dynamic var itemThumbnail: String = ""
     @objc dynamic var itemLocation: Int = 0 // 0: 냉장, 1: 냉동, 2: 기타
     
     override static func primaryKey() -> String? {

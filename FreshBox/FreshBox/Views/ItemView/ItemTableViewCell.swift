@@ -2,40 +2,67 @@
 //  ItemTableViewCell.swift
 //  FreshBox
 //
-//  Created by Seydoux on 2021/10/28.
+//  Created by Seydoux on 2021/11/01.
 //
 
 import UIKit
 
 class ItemTableViewCell: UITableViewCell {
-    
-    var titleLabel: UILabel!
-    var detailLabel: UILabel!
-//    var imageView: UIImageView
-    
 
+    
+    @IBOutlet weak var foodImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var memoLabel: UILabel!
+    @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var expireDateLabel: UILabel!
+    @IBOutlet weak var titleStackView: UIStackView!
+    @IBOutlet weak var quantityStackView: UIStackView!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var plusBtn: UIButton!
+    @IBOutlet weak var minusBtn: UIButton!
+    
+    var increaseQuantity: (() -> ())?
+    var decreaseQuantity: (() -> ())?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        titleLabel = UILabel()
-        detailLabel = UILabel()
+
+        memoLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize*0.9)
+        memoLabel.textColor = .darkGray
         
-        let verticalStackView = UIStackView()
-        verticalStackView.axis = .vertical
-        verticalStackView.distribution = .fillEqually
-        verticalStackView.spacing = 5
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        foodImageView.layer.cornerRadius = 10
+        foodImageView.layer.borderWidth = 1
+        foodImageView.layer.borderColor = UIColor.clear.cgColor
+        foodImageView.layer.masksToBounds = true
         
-        detailLabel.textColor = .darkGray
-        detailLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize * 0.9)
+        expireDateLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize*0.8)
         
-        verticalStackView.addArrangedSubview(titleLabel)
-        verticalStackView.addArrangedSubview(detailLabel)
-        contentView.addSubview(verticalStackView)
+        expireDateLabel.textColor = .white
+        expireDateLabel.textAlignment = .center
+        expireDateLabel.backgroundColor = UIColor.init(red: 236/255.0, green: 103/255.0, blue: 82/255.0, alpha: 1)
+        expireDateLabel.layer.cornerRadius = expireDateLabel.frame.width/4.5
+        expireDateLabel.layer.masksToBounds = true
         
-        verticalStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0).isActive = true
+        quantityLabel.textAlignment = .center
+//        quantityLabel.backgroundColor = .blue
         
+        containerView.layer.borderWidth = 1.0
+        containerView.layer.borderColor = UIColor.clear.cgColor
+        containerView.layer.cornerRadius = 5
+        containerView.layer.masksToBounds = true
+        
+       
+        
+        plusBtn.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+        plusBtn.tag = 0
+        minusBtn.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        minusBtn.tag = 1
+        
+        plusBtn.addTarget(self, action: #selector(plusBtnPressed(_:)), for: .touchUpInside)
+        minusBtn.addTarget(self, action: #selector(minusBtnPressed(_:)), for: .touchUpInside)
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -43,5 +70,13 @@ class ItemTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+    @IBAction func minusBtnPressed(_ sender: UIButton) {
+        decreaseQuantity?()
+    }
+    @IBAction func plusBtnPressed(_ sender: UIButton) {
+        increaseQuantity?()
+    }
 }

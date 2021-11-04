@@ -29,17 +29,39 @@ class AddItemCell: NSObject {
 }
 class AddItemPhotoCell: AddItemCell {
     // TODO: add context menu
+    var button: UIButton?
+    var image: UIImage?
+    var imageName: String?
     
     init (_ cell: UITableViewCell, _ buttonTitle: String) {
         let button = UIButton()
         button.setTitle(buttonTitle, for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         
+        
         cell.contentView.addSubview(button)
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         button.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 20.0).isActive = true
+        
+        self.button = button
+        super.init(cell)
+    }
+}
+
+class AddItemImageCell: AddItemCell {
+//    var image: UIImage?
+
+    init (_ cell: UITableViewCell, _ image: UIImage) {
+        let imageView = UIImageView()
+        imageView.image = image
+        
+        cell.contentView.addSubview(imageView)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         
         super.init(cell)
     }
@@ -167,7 +189,7 @@ class AddItemDateCell: AddItemCell {
     
     func dateFormatter(_ date: Date) -> String {
         let dateArray = date.formatted(date: .numeric, time: .omitted).split{$0=="/"}
-        return String(dateArray[2] + "년 " + dateArray[0] + "월 " + dateArray[1] + " 일")
+        return String(dateArray[0] + "년 " + dateArray[1] + "월 " + dateArray[2] + " 일")
     }
 }
 
