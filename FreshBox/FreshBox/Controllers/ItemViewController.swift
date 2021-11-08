@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 class ItemViewController: UIViewController {
     
@@ -31,7 +32,7 @@ class ItemViewController: UIViewController {
         
         
         tableView.rowHeight = 100
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         tableView.separatorStyle = .none
         
         title = selectedFridge!.name
@@ -43,6 +44,11 @@ class ItemViewController: UIViewController {
         searchBar.delegate = self
         
         tableView.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "itemCell")
+        searchBar.placeholder = "검색"
+        searchBar.searchTextField.textAlignment = .center
+        searchBar.setImage(UIImage(), for: .search, state: .normal)
+        
+        // 앱 알림 관련
     }
     // 필드 이외 화면 클릭 시 키보드 dismiss
     func setKeyboardDismiss() {
@@ -101,9 +107,18 @@ class ItemViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let addItemVC = segue.destination as! AddItemViewController
-        addItemVC.currentFridge = selectedFridge!
-        addItemVC.parentVC = self
+        
+        switch segue.identifier {
+        case "AddItemSegue":
+            let addItemVC = segue.destination as! AddItemViewController
+            addItemVC.currentFridge = selectedFridge!
+            addItemVC.parentVC = self
+        case "ItemDetailSegue":
+            let itemDetailVC = segue.destination as! ItemDetailViewController
+            itemDetailVC.parentVC = self
+        default:
+            break
+        }
     }
 }
 extension ItemViewController: UITableViewDelegate {
@@ -119,11 +134,12 @@ extension ItemViewController: UITableViewDataSource {
         
         guard let item = filteredItems?[indexPath.row] else { return UITableViewCell() }
         
-        
+        cell.selectionStyle = .none
         cell.titleLabel.text = item.name
         cell.memoLabel.text = item.memo
         cell.foodImageView.image = ImageFileManager.shared.loadImage(name: item.itemThumbnail)
         cell.quantityLabel.text = String(item.quantity)
+        cell.alertBtn.setImage(UIImage(systemName: item.favorite ? "bell.fill" : "bell"), for: .normal)
 
         let expireLeft = Int(trunc((item.expireDate.timeIntervalSince1970 - Date().timeIntervalSince1970)/60/60/24))
         if expireLeft > 0 {
@@ -159,8 +175,23 @@ extension ItemViewController: UITableViewDataSource {
             }
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
+        cell.toggleAlert = { [unowned self] in
+            do {
+                try self.realm.write {
+                    self.items?.filter("id == %@", item.id).setValue(!item.favorite, forKey: "favorite")
+                }
+            } catch {
+                print("Error occured in editing database. \(error)")
+            }
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+        }
+        
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ItemDetailSegue", sender: nil)
+    }
+    
     @objc func quantityBtnPressed(_ sender: UIButton) {
         
     }
@@ -173,7 +204,7 @@ extension ItemViewController: UITableViewDataSource {
             filterView.distribution = .fillEqually
 //            filterView.spacing = 5
             
-            let segmentControl = UISegmentedControl(items: ["모두", "냉장", "냉동", "기타"])
+            let segmentControl = UISegmentedControl(items: ["모두", "냉장", "냉동", "실온"])
             segmentControl.selectedSegmentIndex = currentSegment
 //            segmentControl.layer.cornerRadius = segmentControl.bounds.height/2
 //            segmentControl.layer.borderWidth = 1.0

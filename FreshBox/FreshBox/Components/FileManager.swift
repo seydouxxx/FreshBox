@@ -35,4 +35,25 @@ class ImageFileManager {
         }
         return nil
     }
+    
+    //  이미지 리사이징(디폴트: width == 300)
+    func resizeImage(of image: UIImage, for newWidth: CGFloat = 300) -> UIImage {
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    func generateImage(color: UIColor, size: CGFloat = 300) -> UIImage {
+        let square = CGRect(x: 0, y: 0, width: size, height: size)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: size, height: size), false, 0)
+        color.setFill()
+        UIRectFill(square)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 }

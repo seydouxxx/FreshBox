@@ -215,7 +215,7 @@ class AddItemDatePickerCell: AddItemCell {
 }
 
 class AddItemSegmentCell: AddItemCell {
-    var position: [String] = ["냉장", "냉동", "기타"]
+    var position: [String] = ["냉장", "냉동", "실온"]
     var segment: UISegmentedControl
     
     init (_ cell: UITableViewCell, _ titleString: String) {

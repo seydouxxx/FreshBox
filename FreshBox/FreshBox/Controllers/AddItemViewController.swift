@@ -12,6 +12,7 @@ import RealmSwift
 class AddItemViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var navBar: UINavigationBar!
     var currentFridge: Fridge?
     var parentVC: ItemViewController!
     let realm = try! Realm()
@@ -20,7 +21,7 @@ class AddItemViewController: UIViewController {
     var isExpanded: [Bool] = [false, false]
     var isImage = false
     var image: UIImage?
-    var imageName: String?
+    var imageName: String = "\(ProcessInfo.processInfo.globallyUniqueString)"
     struct CellStruct {
         var photoCell: AddItemPhotoCell?
         var favoriteCell: FavoriteFieldCell?
@@ -41,9 +42,16 @@ class AddItemViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.rowHeight = UITableView.automaticDimension
         tableView.keyboardDismissMode = .onDrag
-        print(currentFridge!.name)
+        tableView.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        
+        navBar.shadowImage = UIImage()
+//        navBar.setNeedsLayout()
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         cells = CellStruct()
         // Do any additional setup after loading the view.
         setKeyboardDismiss()
@@ -67,22 +75,20 @@ class AddItemViewController: UIViewController {
         var thumbnailImageName = ""
         guard let name = cells.titleCell?.textField.text, name.count != 0 else { return }
         
-        print("submitted")
-        print(isImage)
-        print(self.image?.size)
-        print(self.imageName)
-        
-        if isImage, let image = self.image, let imageName = self.imageName {
+        if isImage, let image = self.image {
             
             originalImageName = imageName + ".jpeg"
             thumbnailImageName = imageName + "_thumb.jpeg"
             
-            ImageFileManager.shared.saveImage(image: image, name: originalImageName) { [weak self] onSuccess in
-                print("saveImage onSuccess: \(onSuccess)")
-            }
-            ImageFileManager.shared.saveImage(image: resizeImage(of: image, for: 70), name: thumbnailImageName) { [weak self] onSuccess in
-                print("saveImage Thumb onSuccess: \(onSuccess)")
-            }
+            ImageFileManager.shared.saveImage(image: image, name: originalImageName) { _ in }
+            ImageFileManager.shared.saveImage(image: ImageFileManager.shared.resizeImage(of: image, for: 70), name: thumbnailImageName) { _ in }
+        } else {
+            originalImageName = imageName + ".jpeg"
+            thumbnailImageName = imageName + "_thumb.jpeg"
+            
+            image = ImageFileManager.shared.generateImage(color: UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 0.5))
+            ImageFileManager.shared.saveImage(image: image!, name: originalImageName) { _ in }
+            ImageFileManager.shared.saveImage(image: ImageFileManager.shared.resizeImage(of: image!, for: 70), name: thumbnailImageName) { _ in }
         }
         
         do {
@@ -159,7 +165,7 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case 1:
             if indexPath.row == 0 {
-                let favoriteCell = FavoriteFieldCell(cell, "즐겨찾기")
+                let favoriteCell = FavoriteFieldCell(cell, "유통기한 알림")
                 cells.favoriteCell = favoriteCell
                 cell = favoriteCell.cell
                 
@@ -244,7 +250,7 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
         default: break
         }
         
-        cell.backgroundColor = .blue.withAlphaComponent(0.2)
+//        cell.backgroundColor = .blue.withAlphaComponent(0.2)
         cell.selectionStyle = .none
         return cell
     }
@@ -338,8 +344,8 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
             isImage = true
-            self.image = resizeImage(of: image)
-            self.imageName = "\(ProcessInfo.processInfo.globallyUniqueString)"
+            self.image = ImageFileManager.shared.resizeImage(of: image)
+//            self.imageName = "\(ProcessInfo.processInfo.globallyUniqueString)"
 //            cells.photoCell?.imageName = "\(ProcessInfo.processInfo.globallyUniqueString)"
 //            print(cells.photoCell?.imageName)
         }
@@ -349,15 +355,5 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
         tableView.endUpdates()
     }
     
-    //  이미지 리사이징(디폴트: width == 300)
-    func resizeImage(of image: UIImage, for newWidth: CGFloat = 300) -> UIImage {
-        let scale = newWidth / image.size.width
-        let newHeight = image.size.height * scale
-        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
-        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return newImage
-    }
 }
 
