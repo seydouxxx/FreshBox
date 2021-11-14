@@ -7,7 +7,7 @@
 
 import UIKit
 import RealmSwift
-import UserNotifications
+import SwipeCellKit
 
 class ItemViewController: UIViewController {
     
@@ -35,6 +35,8 @@ class ItemViewController: UIViewController {
         tableView.allowsSelection = true
         tableView.separatorStyle = .none
         
+        self.navigationController?.navigationBar.tintColor = Constants.themeColor
+        
         title = selectedFridge!.name
         self.loadData()
         
@@ -45,8 +47,10 @@ class ItemViewController: UIViewController {
         
         tableView.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "itemCell")
         searchBar.placeholder = "검색"
-        searchBar.searchTextField.textAlignment = .center
+//        searchBar.searchTextField.textAlignment = .center
         searchBar.setImage(UIImage(), for: .search, state: .normal)
+        searchBar.backgroundImage = UIImage()
+        
         
         // 앱 알림 관련
     }
@@ -115,6 +119,7 @@ class ItemViewController: UIViewController {
             addItemVC.parentVC = self
         case "ItemDetailSegue":
             let itemDetailVC = segue.destination as! ItemDetailViewController
+            itemDetailVC.selectedItem = sender as? Item
             itemDetailVC.parentVC = self
         default:
             break
@@ -139,9 +144,10 @@ extension ItemViewController: UITableViewDataSource {
         cell.memoLabel.text = item.memo
         cell.foodImageView.image = ImageFileManager.shared.loadImage(name: item.itemThumbnail)
         cell.quantityLabel.text = String(item.quantity)
-        cell.alertBtn.setImage(UIImage(systemName: item.favorite ? "bell.fill" : "bell"), for: .normal)
+        
 
-        let expireLeft = Int(trunc((item.expireDate.timeIntervalSince1970 - Date().timeIntervalSince1970)/60/60/24))
+        let expireLeft = dateDifference(of: Date(), with: item.expireDate)
+        
         if expireLeft > 0 {
             // 유통기한 아직 남음
             cell.expireDateLabel.text = "\(expireLeft)일 남음   "
@@ -175,21 +181,11 @@ extension ItemViewController: UITableViewDataSource {
             }
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
-        cell.toggleAlert = { [unowned self] in
-            do {
-                try self.realm.write {
-                    self.items?.filter("id == %@", item.id).setValue(!item.favorite, forKey: "favorite")
-                }
-            } catch {
-                print("Error occured in editing database. \(error)")
-            }
-            self.tableView.reloadRows(at: [indexPath], with: .none)
-        }
-        
+        cell.delegate = self
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ItemDetailSegue", sender: nil)
+        performSegue(withIdentifier: "ItemDetailSegue", sender: filteredItems![indexPath.row])
     }
     
     @objc func quantityBtnPressed(_ sender: UIButton) {
@@ -206,6 +202,8 @@ extension ItemViewController: UITableViewDataSource {
             
             let segmentControl = UISegmentedControl(items: ["모두", "냉장", "냉동", "실온"])
             segmentControl.selectedSegmentIndex = currentSegment
+            segmentControl.selectedSegmentTintColor = Constants.themeColor
+            segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
 //            segmentControl.layer.cornerRadius = segmentControl.bounds.height/2
 //            segmentControl.layer.borderWidth = 1.0
 //            segmentControl.layer.borderColor = UIColor.white.cgColor
@@ -221,7 +219,7 @@ extension ItemViewController: UITableViewDataSource {
             default: filterBtn.setTitle("유통기한 임박순 ↓", for: .normal)
             }
             filterBtn.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize*0.9)
-            filterBtn.setTitleColor(UIColor.systemBlue, for: .normal)
+            filterBtn.setTitleColor(Constants.themeColor, for: .normal)
             filterBtn.addTarget(self, action: #selector(filterBtnPressed(_:)), for: .touchUpInside)
             btnView.addSubview(filterBtn)
             
@@ -264,7 +262,10 @@ extension ItemViewController: UITableViewDataSource {
         let cancel = UIAlertAction(title: "취소", style: .cancel) { action in
             self.dismiss(animated: true, completion: nil)
         }
-        
+        sortByName.setValue(Constants.themeColor, forKey: "titleTextColor")
+        sortByExpireDate.setValue(Constants.themeColor, forKey: "titleTextColor")
+        sortByCreatedDate.setValue(Constants.themeColor, forKey: "titleTextColor")
+        cancel.setValue(UIColor.systemRed, forKey: "titleTextColor")
         sheet.addAction(sortByExpireDate)
         sheet.addAction(sortByName)
         sheet.addAction(sortByCreatedDate)
@@ -281,6 +282,33 @@ extension ItemViewController: UITableViewDataSource {
         return 70.0
     }
     
+}
+extension ItemViewController: SwipeTableViewCellDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "삭제") { action , indexPath in
+            if let item = self.items?[indexPath.row] {
+                do {
+                    try self.realm.write {
+                        if let targetItem = self.realm.objects(Item.self).filter("id == %@", item.id).first {
+                            self.realm.delete(targetItem)
+                        }
+                    }
+                } catch {
+                    print("Error occured during deleting item. \(error)")
+                }
+            }
+        }
+        deleteAction.image = UIImage(named: "delete")
+        
+        return [deleteAction]
+    }
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        return options
+    }
 }
 
 // 검색창 델리게이트

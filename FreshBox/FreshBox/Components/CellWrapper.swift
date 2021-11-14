@@ -36,7 +36,7 @@ class AddItemPhotoCell: AddItemCell {
     init (_ cell: UITableViewCell, _ buttonTitle: String) {
         let button = UIButton()
         button.setTitle(buttonTitle, for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitleColor(Constants.themeColor, for: .normal)
         
         
         cell.contentView.addSubview(button)
@@ -127,7 +127,7 @@ class AddItemStepperCell: AddItemCell {
         
         let decreaseBtn = UIButton()
         decreaseBtn.setTitle("-", for: .normal)
-        decreaseBtn.setTitleColor(.systemBlue, for: .normal)
+        decreaseBtn.setTitleColor(Constants.themeColor, for: .normal)
         stackView.addArrangedSubview(decreaseBtn)
         
         let valueLabel = UILabel()
@@ -136,7 +136,7 @@ class AddItemStepperCell: AddItemCell {
         
         let increaseBtn = UIButton()
         increaseBtn.setTitle("+", for: .normal)
-        increaseBtn.setTitleColor(.systemBlue, for: .normal)
+        increaseBtn.setTitleColor(Constants.themeColor, for: .normal)
         stackView.addArrangedSubview(increaseBtn)
         
         decreaseBtn.addAction(UIAction(handler: { _ in
@@ -168,7 +168,7 @@ class AddItemDateCell: AddItemCell {
     var date: Date
     
     init (_ cell: UITableViewCell, _ titleString: String) {
-        cell.detailTextLabel!.textColor = .systemBlue
+        cell.detailTextLabel!.textColor = Constants.themeColor
         let titleLabel = UILabel()
         titleLabel.text = titleString
         
@@ -181,16 +181,16 @@ class AddItemDateCell: AddItemCell {
         
         self.date = Date()
         super.init(cell)
-        cell.detailTextLabel!.text = self.dateFormatter(self.date)
+        cell.detailTextLabel!.text = dateFormatter(of: self.date)
     }
     func setDateLabel() {
-        self.cell.detailTextLabel!.text = self.dateFormatter(self.date)
+        self.cell.detailTextLabel!.text = dateFormatter(of: self.date)
     }
     
-    func dateFormatter(_ date: Date) -> String {
-        let dateArray = date.formatted(date: .numeric, time: .omitted).split{$0=="/"}
-        return String(dateArray[0] + "년 " + dateArray[1] + "월 " + dateArray[2] + " 일")
-    }
+//    func dateFormatter(_ date: Date) -> String {
+//        let dateArray = date.formatted(date: .numeric, time: .omitted).split{$0=="/"}
+//        return String(dateArray[0] + "년 " + dateArray[1] + "월 " + dateArray[2] + " 일")
+//    }
 }
 
 class AddItemDatePickerCell: AddItemCell {
@@ -222,6 +222,8 @@ class AddItemSegmentCell: AddItemCell {
         let title = UILabel()
         title.text = titleString
         let segment = UISegmentedControl(items: position)
+        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
+        segment.selectedSegmentTintColor = Constants.themeColor
         segment.selectedSegmentIndex = 0
         
         cell.contentView.addSubview(title)

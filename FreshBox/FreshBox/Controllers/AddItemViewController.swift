@@ -17,7 +17,7 @@ class AddItemViewController: UIViewController {
     var parentVC: ItemViewController!
     let realm = try! Realm()
     let sectionName: [String] = ["photo", "name", "storeDetail", "dateDetail"]
-    let cellName: [[String]] = [["photo"], ["favorite", "name", "memo"], ["quantity", "location"], ["expire date", "boughtDate"]]
+    let cellName: [[String]] = [["photo"], ["name", "memo"], ["quantity", "location"], ["expire date", "boughtDate"]]
     var isExpanded: [Bool] = [false, false]
     var isImage = false
     var image: UIImage?
@@ -42,18 +42,15 @@ class AddItemViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-//        tableView.rowHeight = UITableView.automaticDimension
         tableView.keyboardDismissMode = .onDrag
-        tableView.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        tableView.backgroundColor = Constants.themeColor.withAlphaComponent(0.05)
         
         navBar.shadowImage = UIImage()
-//        navBar.setNeedsLayout()
+        navBar.tintColor = Constants.themeColor
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         cells = CellStruct()
-        // Do any additional setup after loading the view.
         setKeyboardDismiss()
     }
     func setKeyboardDismiss() {
@@ -165,17 +162,14 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case 1:
             if indexPath.row == 0 {
-                let favoriteCell = FavoriteFieldCell(cell, "유통기한 알림")
-                cells.favoriteCell = favoriteCell
-                cell = favoriteCell.cell
-                
-            } else if indexPath.row == 1 {
                 let nameCell = AddItemTextFieldCell(cell, "이름")
+                nameCell.textField.delegate = self
                 cells.titleCell = nameCell
                 cell = nameCell.cell
                 
-            } else if indexPath.row == 2 {
+            } else if indexPath.row == 1 {
                 let memoCell = AddItemTextFieldCell(cell, "메모")
+                memoCell.textField.delegate = self
                 cells.memoCell = memoCell
                 cell = memoCell.cell
             }
@@ -356,4 +350,9 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
 }
-
+extension AddItemViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+}

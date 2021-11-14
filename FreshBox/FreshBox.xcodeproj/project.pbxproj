@@ -10,6 +10,9 @@
 		65A143C91D942D234FA4429F /* Pods_FreshBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9B47A8A0AEF01BB50E6F76 /* Pods_FreshBox.framework */; };
 		7E0BD17A273237ED00646207 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0BD179273237ED00646207 /* FileManager.swift */; };
 		7E0BD17C2738D56F00646207 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0BD17B2738D56F00646207 /* ItemDetailViewController.swift */; };
+		7E0BD17E273A5AAB00646207 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0BD17D273A5AAA00646207 /* Tools.swift */; };
+		7E0BD180273A88FF00646207 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0BD17F273A88FF00646207 /* Constants.swift */; };
+		7E0BD182273CD00F00646207 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0BD181273CD00F00646207 /* EditItemViewController.swift */; };
 		7E838ECF2712DB6600547E93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ECE2712DB6600547E93 /* AppDelegate.swift */; };
 		7E838ED12712DB6600547E93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ED02712DB6600547E93 /* SceneDelegate.swift */; };
 		7E838ED32712DB6600547E93 /* FridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E838ED22712DB6600547E93 /* FridgeViewController.swift */; };
@@ -31,6 +34,9 @@
 /* Begin PBXFileReference section */
 		7E0BD179273237ED00646207 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		7E0BD17B2738D56F00646207 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
+		7E0BD17D273A5AAA00646207 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		7E0BD17F273A88FF00646207 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		7E0BD181273CD00F00646207 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		7E838ECB2712DB6600547E93 /* FreshBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreshBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E838ECE2712DB6600547E93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E838ED02712DB6600547E93 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +85,7 @@
 			children = (
 				7E0BD179273237ED00646207 /* FileManager.swift */,
 				7EAE770A2722A043003773B3 /* CellWrapper.swift */,
+				7E0BD17D273A5AAA00646207 /* Tools.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -112,6 +119,7 @@
 				7E838ED02712DB6600547E93 /* SceneDelegate.swift */,
 				7E838ED72712DB6B00547E93 /* Assets.xcassets */,
 				7E838EDC2712DB6B00547E93 /* Info.plist */,
+				7E0BD17F273A88FF00646207 /* Constants.swift */,
 			);
 			path = FreshBox;
 			sourceTree = "<group>";
@@ -134,6 +142,7 @@
 				7EAE7704271D568D003773B3 /* ItemViewController.swift */,
 				7EAE7706271EADDB003773B3 /* AddItemViewController.swift */,
 				7E0BD17B2738D56F00646207 /* ItemDetailViewController.swift */,
+				7E0BD181273CD00F00646207 /* EditItemViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -297,12 +306,15 @@
 				7EAE770B2722A044003773B3 /* CellWrapper.swift in Sources */,
 				7E0BD17A273237ED00646207 /* FileManager.swift in Sources */,
 				7E838ED32712DB6600547E93 /* FridgeViewController.swift in Sources */,
+				7E0BD180273A88FF00646207 /* Constants.swift in Sources */,
 				7E947867272FC05600AC0D51 /* ItemTableViewCell.swift in Sources */,
 				7E838EE72712FB1500547E93 /* FridgeCollectionViewCell.swift in Sources */,
 				7EAE7700271889CD003773B3 /* AddFridgeCollectionReusableView.swift in Sources */,
 				7EAE7707271EADDB003773B3 /* AddItemViewController.swift in Sources */,
 				7EAE76FE27156DD4003773B3 /* Item.swift in Sources */,
+				7E0BD182273CD00F00646207 /* EditItemViewController.swift in Sources */,
 				7E0BD17C2738D56F00646207 /* ItemDetailViewController.swift in Sources */,
+				7E0BD17E273A5AAB00646207 /* Tools.swift in Sources */,
 				7E838ECF2712DB6600547E93 /* AppDelegate.swift in Sources */,
 				7E838ED12712DB6600547E93 /* SceneDelegate.swift in Sources */,
 			);

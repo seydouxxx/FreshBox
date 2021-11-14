@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class ItemTableViewCell: UITableViewCell {
+class ItemTableViewCell: SwipeTableViewCell {
 
     
     @IBOutlet weak var foodImageView: UIImageView!
@@ -20,11 +21,9 @@ class ItemTableViewCell: UITableViewCell {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var plusBtn: UIButton!
     @IBOutlet weak var minusBtn: UIButton!
-    @IBOutlet weak var alertBtn: UIButton!
     
     var increaseQuantity: (() -> ())?
     var decreaseQuantity: (() -> ())?
-    var toggleAlert: (() -> ())?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -59,13 +58,14 @@ class ItemTableViewCell: UITableViewCell {
         contentView.layer.shadowRadius = 2
         
         plusBtn.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+        plusBtn.tintColor = Constants.themeColor
         plusBtn.tag = 0
         minusBtn.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        minusBtn.tintColor = Constants.themeColor
         minusBtn.tag = 1
         
         plusBtn.addTarget(self, action: #selector(plusBtnPressed(_:)), for: .touchUpInside)
         minusBtn.addTarget(self, action: #selector(minusBtnPressed(_:)), for: .touchUpInside)
-        alertBtn.addTarget(self, action: #selector(alertBtnPressed(_:)), for: .touchUpInside)
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -84,8 +84,5 @@ class ItemTableViewCell: UITableViewCell {
     }
     @IBAction func plusBtnPressed(_ sender: UIButton) {
         increaseQuantity?()
-    }
-    @IBAction func alertBtnPressed(_ sender: UIButton) {
-        toggleAlert?()
     }
 }

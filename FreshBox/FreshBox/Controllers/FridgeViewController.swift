@@ -78,8 +78,36 @@ extension FridgeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             var menus: [UIMenuElement] = []
-            let editBtn = UIAction(title: "수정(미구현)", image: UIImage(systemName: "pencil")) { action in
-                print("Edit")
+            let editBtn = UIAction(title: "수정", image: UIImage(systemName: "pencil")) { action in
+                
+                var textField = UITextField()
+                
+                let alert = UIAlertController(title: "냉장고 정보 수정", message: "", preferredStyle: .alert)
+                let cancel = UIAlertAction(title: "취소", style: .cancel) { UIAlertAction in
+                    self.dismiss(animated: true, completion: nil)
+                }
+                let confirm = UIAlertAction(title: "완료", style: .default) { confirm in
+                    do {
+                        try self.realm.write({
+                            if let selectedFridge = self.realm.objects(Fridge.self).filter("id == %@", self.fridges![indexPath.item].id).first {
+                                selectedFridge.name = textField.text!
+                            }
+                        })
+                    } catch {
+                        print("Error occured in writing. \(error)")
+                    }
+                    self.collectionView.reloadData()
+                }
+                
+                alert.addTextField { field in
+                    field.placeholder = "새로운 냉장고 이름을 입력하세요."
+                    field.text = self.fridges![indexPath.item].name
+                    textField = field
+                }
+                alert.addAction(cancel)
+                alert.addAction(confirm)
+                
+                self.present(alert, animated: true, completion: nil)
             }
             let deleteBtn = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
                 do {
