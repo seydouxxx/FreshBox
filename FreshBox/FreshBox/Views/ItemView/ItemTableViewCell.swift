@@ -45,7 +45,6 @@ class ItemTableViewCell: SwipeTableViewCell {
         expireDateLabel.layer.masksToBounds = true
         
         quantityLabel.textAlignment = .center
-//        quantityLabel.backgroundColor = .blue
         
         containerView.layer.borderWidth = 1.0
         containerView.layer.borderColor = UIColor.clear.cgColor
@@ -63,6 +62,9 @@ class ItemTableViewCell: SwipeTableViewCell {
         minusBtn.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         minusBtn.tintColor = Constants.themeColor
         minusBtn.tag = 1
+        
+        plusBtn.setTitle("", for: .normal)
+        minusBtn.setTitle("", for: .normal)
         
         plusBtn.addTarget(self, action: #selector(plusBtnPressed(_:)), for: .touchUpInside)
         minusBtn.addTarget(self, action: #selector(minusBtnPressed(_:)), for: .touchUpInside)

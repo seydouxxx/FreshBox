@@ -64,7 +64,6 @@ class EditItemViewController: UIViewController {
         quantityTextField.text = "\(selectedItem.quantity)"
         quantityTextField.keyboardType = .numberPad
         quantityTextField.borderStyle = .roundedRect
-        // textfield
         
         locationLabel.text = "보관장소"
         locationLabel.textColor = .lightGray
@@ -75,23 +74,20 @@ class EditItemViewController: UIViewController {
         locationSegment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
         locationSegment.selectedSegmentIndex = selectedItem.itemLocation
         
-        // textfield
         
         expireDateLabel.text = "유통기한"
         expireDateLabel.textColor = .lightGray
         expireDatePicker.locale = Constants.locale
+        
         expireDatePicker.calendar.locale = Constants.locale
         expireDatePicker.date = selectedItem.expireDate
-        // textfield
         
         registerDateLabel.text = "구매일자"
         registerDateLabel.textColor = .lightGray
         registerDatePicker.locale = Constants.locale
         registerDatePicker.calendar.locale = Constants.locale
         registerDatePicker.date = selectedItem.createdDate
-        // textfield
         
-        // Do any additional setup after loading the view.
         setKeyboardDismiss()
     }
     func setKeyboardDismiss() {
@@ -105,7 +101,9 @@ class EditItemViewController: UIViewController {
         self.view.endEditing(true)
     }
     func initImageEditButton() {
+        self.editItemImageButton.tintColor = Constants.themeColor
         let takePhotoAction = UIAction(title: "사진 촬영", image: UIImage(systemName: "camera"), handler: presentCamera(_:))
+        let getPhotoAction = UIAction(title: "사진 가져오기", image: UIImage(systemName: "photo.on.rectangle"), handler: getImageFromGallery(_:))
         let cancelAction = UIAction(title: "취소", attributes: .destructive) { _ in
             print("cancel")
         }
@@ -115,7 +113,7 @@ class EditItemViewController: UIViewController {
             image: UIImage(systemName: "camera"),
             identifier: nil,
             options: .displayInline,
-            children: [takePhotoAction, cancelAction]
+            children: [takePhotoAction, getPhotoAction, cancelAction]
         )
     }
     
@@ -181,8 +179,18 @@ extension EditItemViewController: UIImagePickerControllerDelegate, UINavigationC
         present(camera, animated: true, completion: nil)
     }
     
+    func getImageFromGallery(_ action: UIAction) {
+        let album = UIImagePickerController()
+        album.sourceType = .photoLibrary
+        album.delegate = self
+        
+        present(album, animated: true, completion: nil)
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
+            self.image = ImageFileManager.shared.resizeImage(of: image)
+        } else if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.image = ImageFileManager.shared.resizeImage(of: image)
         }
         picker.dismiss(animated: true, completion: nil)

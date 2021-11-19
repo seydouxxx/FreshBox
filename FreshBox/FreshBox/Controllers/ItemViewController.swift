@@ -204,11 +204,6 @@ extension ItemViewController: UITableViewDataSource {
             segmentControl.selectedSegmentIndex = currentSegment
             segmentControl.selectedSegmentTintColor = Constants.themeColor
             segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
-//            segmentControl.layer.cornerRadius = segmentControl.bounds.height/2
-//            segmentControl.layer.borderWidth = 1.0
-//            segmentControl.layer.borderColor = UIColor.white.cgColor
-//            segmentControl.layer.masksToBounds = true
-//            segmentControl.clipsToBounds = true
             segmentControl.addTarget(self, action: #selector(self.segmentControlChanged(_:)), for: .valueChanged)
             
             let btnView = UIView()

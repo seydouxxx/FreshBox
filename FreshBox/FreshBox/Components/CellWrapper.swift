@@ -118,6 +118,16 @@ class FavoriteFieldCell: AddItemCell {
 class AddItemStepperCell: AddItemCell {
     var valueLabel: UILabel
     
+    @objc func decreaseBtnPressed() {
+        if Int(valueLabel.text!)! > 0 {
+            valueLabel.text = String( Int(valueLabel.text!)! - 1 )
+        }
+    }
+    
+    @objc func increaseBtnPressed() {
+        valueLabel.text = String( Int(valueLabel.text!)! + 1 )
+    }
+    
     init (_ cell: UITableViewCell, _ labelText: String) {
         let titleLabel = UILabel()
         titleLabel.text = labelText
@@ -139,14 +149,14 @@ class AddItemStepperCell: AddItemCell {
         increaseBtn.setTitleColor(Constants.themeColor, for: .normal)
         stackView.addArrangedSubview(increaseBtn)
         
-        decreaseBtn.addAction(UIAction(handler: { _ in
-            if Int(valueLabel.text!)! > 0 {
-                valueLabel.text = String( Int(valueLabel.text!)! - 1 )
-            }
-        }), for: .touchUpInside)
-        increaseBtn.addAction(UIAction(handler: { _ in
-            valueLabel.text = String( Int(valueLabel.text!)! + 1 )
-        }), for: .touchUpInside)
+//        decreaseBtn.addAction(UIAction(handler: { _ in
+//            if Int(valueLabel.text!)! > 0 {
+//                valueLabel.text = String( Int(valueLabel.text!)! - 1 )
+//            }
+//        }), for: .touchUpInside)
+//        increaseBtn.addAction(UIAction(handler: { _ in
+//            valueLabel.text = String( Int(valueLabel.text!)! + 1 )
+//        }), for: .touchUpInside)
         
         cell.contentView.addSubview(titleLabel)
         cell.contentView.addSubview(stackView)
@@ -161,6 +171,10 @@ class AddItemStepperCell: AddItemCell {
         
         self.valueLabel = valueLabel
         super.init(cell)
+        
+        decreaseBtn.addTarget(self, action: #selector(decreaseBtnPressed), for: .touchUpInside)
+        
+        increaseBtn.addTarget(self, action: #selector(increaseBtnPressed), for: .touchUpInside)
     }
 }
 
@@ -186,11 +200,6 @@ class AddItemDateCell: AddItemCell {
     func setDateLabel() {
         self.cell.detailTextLabel!.text = dateFormatter(of: self.date)
     }
-    
-//    func dateFormatter(_ date: Date) -> String {
-//        let dateArray = date.formatted(date: .numeric, time: .omitted).split{$0=="/"}
-//        return String(dateArray[0] + "년 " + dateArray[1] + "월 " + dateArray[2] + " 일")
-//    }
 }
 
 class AddItemDatePickerCell: AddItemCell {

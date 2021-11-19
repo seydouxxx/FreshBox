@@ -21,7 +21,6 @@ class FridgeViewController: UIViewController, UICollectionViewDelegateFlowLayout
         
         collectionView.register(UINib(nibName: "FridgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FridgeCell")
         collectionView.register(AddFridgeCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "AddButtonFooter")
-//        collectionView.register(UINib(nibName: "FridgeAddCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddFridgeCell")
         
         // Do any additional setup after loading the view.
         self.loadData()

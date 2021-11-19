@@ -9,15 +9,19 @@ import UIKit
 
 class AddFridgeCollectionReusableView: UICollectionReusableView {
     var AddFridgebutton: UIButton!
-    
+//    TODO: IOS VERSION SUPPORT
     private func setup() {
-//        let lbl = UILabel(frame: bounds)
         let btn = UIButton(frame: bounds)
-        btn.configuration = .filled()
-        btn.configuration?.baseForegroundColor = .white
-        btn.configuration?.baseBackgroundColor = .lightGray
+//        if #available(iOS 15.0, *) {
+//            btn.configuration = .filled()
+//            btn.configuration?.baseForegroundColor = .white
+//            btn.configuration?.baseBackgroundColor = .lightGray
+//        } else {
+//
+//        }
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(systemName: "plus"), for: .normal)
+        btn.tintColor = Constants.themeColor
         
         addSubview(btn)
         

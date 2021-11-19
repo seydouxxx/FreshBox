@@ -142,6 +142,7 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                 let photoCell = AddItemPhotoCell(cell, "사진 추가")
                 
                 let takePhotoAction = UIAction(title: "사진 촬영", image: UIImage(systemName: "camera"), handler: presentCamera(_:))
+                let getPhotoAction = UIAction(title: "사진 가져오기", image: UIImage(systemName: "photo.on.rectangle"), handler: getImageFromGallery(_:))
                 let cancelAction = UIAction(title: "취소", attributes: .destructive) { _ in
                     print("cancel")
                 }
@@ -151,7 +152,7 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                     image: UIImage(systemName: "camera"),
                     identifier: nil,
                     options: .displayInline,
-                    children: [takePhotoAction, cancelAction]
+                    children: [takePhotoAction, getPhotoAction, cancelAction]
                 )
                 
                 cells.photoCell = photoCell
@@ -272,12 +273,12 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
         if isExpanded[0] {
             row2 += 1
             if indexPath.section == 3, indexPath.row == 1 {
-                return 250
+                return 300
             }
         }
         if isExpanded[1] {
             if indexPath.section == 3, indexPath.row == row2 {
-                return 250
+                return 300
             }
         }
         return tableView.rowHeight
@@ -339,14 +340,22 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
             isImage = true
             self.image = ImageFileManager.shared.resizeImage(of: image)
-//            self.imageName = "\(ProcessInfo.processInfo.globallyUniqueString)"
-//            cells.photoCell?.imageName = "\(ProcessInfo.processInfo.globallyUniqueString)"
-//            print(cells.photoCell?.imageName)
+        } else if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            isImage = true
+            self.image = ImageFileManager.shared.resizeImage(of: image)
         }
         picker.dismiss(animated: true)
         tableView.beginUpdates()
         tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
         tableView.endUpdates()
+    }
+    
+    func getImageFromGallery(_ action: UIAction) {
+        let album = UIImagePickerController()
+        album.sourceType = .photoLibrary
+        album.delegate = self
+        
+        present(album, animated: true, completion: nil)
     }
     
 }

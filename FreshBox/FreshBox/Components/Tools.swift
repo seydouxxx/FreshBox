@@ -8,8 +8,10 @@
 import Foundation
 
 func dateFormatter(of date: Date) -> String {
-    let dateArray = date.formatted(date: .numeric, time: .omitted).split{$0=="/"}
-    return String(dateArray[0] + "년 " + dateArray[1] + "월 " + dateArray[2] + " 일")
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy년 MM월 dd일(EEEEE)"
+    dateFormatter.locale = Locale(identifier: "ko_KR")
+    return dateFormatter.string(from: date)
 }
 
 func dateDifference(of lhs: Date, with rhs: Date) -> Int {
