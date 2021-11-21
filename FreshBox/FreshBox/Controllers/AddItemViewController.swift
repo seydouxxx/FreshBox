@@ -13,6 +13,7 @@ class AddItemViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var submitButton: UIBarButtonItem!
     var currentFridge: Fridge?
     var parentVC: ItemViewController!
     let realm = try! Realm()
@@ -47,6 +48,7 @@ class AddItemViewController: UIViewController {
         
         navBar.shadowImage = UIImage()
         navBar.tintColor = Constants.themeColor
+        self.submitButton.isEnabled = false
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -163,7 +165,13 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case 1:
             if indexPath.row == 0 {
-                let nameCell = AddItemTextFieldCell(cell, "이름")
+                let nameCell = AddItemTextFieldCell(cell, "이름", required: true)
+                
+                nameCell.textField.addTarget(
+                    self,
+                    action: #selector(nameFieldTextChanged(_:)),
+                    for: .editingChanged)
+                
                 nameCell.textField.delegate = self
                 cells.titleCell = nameCell
                 cell = nameCell.cell
@@ -199,6 +207,7 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                     let expireDatePickerCell = AddItemDatePickerCell(cell)
                     expireDatePickerCell.datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
                     
+                    expireDatePickerCell.datePicker.locale = Locale(identifier: "ko-KR")
                     expireDatePickerCell.datePicker.date = cells.expDateCell!.date
                     
                     cells.expPickerCell = expireDatePickerCell
@@ -225,6 +234,7 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                     let boughtDatePickerCell = AddItemDatePickerCell(cell)
                     boughtDatePickerCell.datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
                     
+                    boughtDatePickerCell.datePicker.locale = Locale(identifier: "ko-KR")
                     boughtDatePickerCell.datePicker.date = cells.buyDateCell!.date
                     
                     cells.buyPickerCell = boughtDatePickerCell
@@ -236,6 +246,7 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
                 let boughtDatePickerCell = AddItemDatePickerCell(cell)
                 boughtDatePickerCell.datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
                 
+                boughtDatePickerCell.datePicker.locale = Locale(identifier: "ko-KR")
                 boughtDatePickerCell.datePicker.date = cells.buyDateCell!.date
                 
                 cells.buyPickerCell = boughtDatePickerCell
@@ -245,10 +256,19 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
         default: break
         }
         
-//        cell.backgroundColor = .blue.withAlphaComponent(0.2)
         cell.selectionStyle = .none
         return cell
     }
+    
+    @objc func nameFieldTextChanged(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if !text.isEmpty {
+            self.submitButton.isEnabled = true
+        } else {
+            self.submitButton.isEnabled = false
+        }
+    }
+    
     @objc func dateChanged(_ datePicker: UIDatePicker) {
         
         if let expPicker = cells.expPickerCell, let expDate = cells.expDateCell {
@@ -273,12 +293,12 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
         if isExpanded[0] {
             row2 += 1
             if indexPath.section == 3, indexPath.row == 1 {
-                return 300
+                return 350
             }
         }
         if isExpanded[1] {
             if indexPath.section == 3, indexPath.row == row2 {
-                return 300
+                return 350
             }
         }
         return tableView.rowHeight
@@ -295,25 +315,35 @@ extension AddItemViewController: UITableViewDelegate, UITableViewDataSource {
             isExpanded[0] = !isExpanded[0]
             if isExpanded[0] {
                 
-                tableView.beginUpdates()
-                tableView.insertRows(at: [IndexPath(row: 1, section: 3)], with: .fade)
-                tableView.endUpdates()
+                self.tableView.beginUpdates()
+                self.tableView.insertRows(at: [IndexPath(row: 1, section: 3)], with: .fade)
+                self.tableView.endUpdates()
+                
+//                let endOfScroll = CGPoint(x: 0, y: self.tableView.contentSize.height - self.tableView.bounds.height)
+//                self.tableView.setContentOffset(endOfScroll, animated: true)
+                self.tableView.scrollToRow(at: IndexPath(row: 1, section: 3), at: .top, animated: true)
             } else {
-                tableView.beginUpdates()
-                tableView.deleteRows(at: [IndexPath(row: 1, section: 3)], with: .fade)
-                tableView.endUpdates()
+                self.tableView.beginUpdates()
+                self.tableView.deleteRows(at: [IndexPath(row: 1, section: 3)], with: .fade)
+                self.tableView.endUpdates()
+
+//                let endOfScroll = CGPoint(x: 0, y: self.tableView.contentSize.height - self.tableView.bounds.height)
+//                self.tableView.setContentOffset(endOfScroll, animated: true)
+//                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 3), at: .top, animated: true)
             }
         } else if indexPath.section == 3, indexPath.row == row2 {
             isExpanded[1] = !isExpanded[1]
             if isExpanded[1] {
                 
-                tableView.beginUpdates()
-                tableView.insertRows(at: [IndexPath(row: row2+1, section: 3)], with: .fade)
-                tableView.endUpdates()
+                self.tableView.beginUpdates()
+                self.tableView.insertRows(at: [IndexPath(row: row2+1, section: 3)], with: .fade)
+                self.tableView.endUpdates()
+                
+                self.tableView.scrollToRow(at: IndexPath(row: row2+1, section: 3), at: .top, animated: true)
             } else {
-                tableView.beginUpdates()
-                tableView.deleteRows(at: [IndexPath(row: row2+1, section: 3)], with: .fade)
-                tableView.endUpdates()
+                self.tableView.beginUpdates()
+                self.tableView.deleteRows(at: [IndexPath(row: row2+1, section: 3)], with: .fade)
+                self.tableView.endUpdates()
             }
         }
     }

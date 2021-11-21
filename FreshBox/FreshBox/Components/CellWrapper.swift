@@ -70,9 +70,16 @@ class AddItemImageCell: AddItemCell {
 class AddItemTextFieldCell: AddItemCell {
     var textField: UITextField
     
-    init (_ cell: UITableViewCell, _ placeholderText: String) {
+    init (_ cell: UITableViewCell, _ placeholderText: String, required: Bool = false) {
         let textField = UITextField()
         textField.placeholder = placeholderText
+        
+        if required {
+            let placeholderString = "* " + placeholderText
+            let attributedPlaceholder = NSMutableAttributedString(string: placeholderString)
+            attributedPlaceholder.addAttribute(.foregroundColor, value: UIColor.red, range: (placeholderString as NSString).range(of: "* ") )
+            textField.attributedPlaceholder = attributedPlaceholder
+        }
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         
@@ -206,17 +213,18 @@ class AddItemDatePickerCell: AddItemCell {
     var datePicker: UIDatePicker
     
     override init (_ cell: UITableViewCell) {
-        let datePicker = UIDatePicker()
+        let datePicker = UIDatePicker(frame: cell.contentView.bounds)
         datePicker.preferredDatePickerStyle = .inline
         datePicker.datePickerMode = .date
         datePicker.locale = .current
-        
+
         cell.contentView.addSubview(datePicker)
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         datePicker.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
-        datePicker.heightAnchor.constraint(equalTo: cell.heightAnchor, constant: 0).isActive = true
+        datePicker.heightAnchor.constraint(equalTo: cell.contentView.heightAnchor).isActive = true
+        datePicker.widthAnchor.constraint(equalTo: cell.contentView.widthAnchor).isActive = true
         
         self.datePicker = datePicker
         super.init(cell)

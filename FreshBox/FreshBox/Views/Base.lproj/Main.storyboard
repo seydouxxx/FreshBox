@@ -447,6 +447,7 @@
                     </view>
                     <connections>
                         <outlet property="navBar" destination="ye5-Os-GiO" id="IRG-nO-awd"/>
+                        <outlet property="submitButton" destination="Brs-lh-wWD" id="g55-Gs-0tT"/>
                         <outlet property="tableView" destination="GS8-sv-5FD" id="PBc-EU-eeh"/>
                     </connections>
                 </viewController>
