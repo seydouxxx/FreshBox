@@ -1,5 +1,7 @@
 # FreshBox
 > 첫 번째 iOS 프로젝트
+> 
+> [<img src = "https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg">](https://apps.apple.com/kr/app/freshbox/id1595436309)
 
 ## About
 ![picture alt](https://github.com/seydouxxx/FreshBox/blob/main/images/devices.png)
